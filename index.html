@@ -594,34 +594,43 @@
       .code-examples { margin-top: 12px; color: var(--muted-2); font-size: 0.8rem; }
       .code-examples button { background: none; border: none; color: var(--muted); text-decoration: underline; padding: 4px 2px; font-size: 0.8rem; min-height: 2rem; }
       .code-examples button:hover { color: var(--gold-2); }
-      .gen-note { color: var(--gold-2); font-size: 0.92rem; font-weight: 600; margin: 0 0 14px; line-height: 1.6; background: rgba(242,182,60,.08); border: 1px solid var(--line-gold); border-radius: 10px; padding: 11px 14px; }
-      .btn-gen { background: linear-gradient(180deg, var(--gold-2), var(--gold) 55%, #d99a22); border: none; color: #241300; font-weight: 900; font-size: 1rem; border-radius: 10px; padding: 12px 24px; min-height: 3.3rem; display: inline-flex; align-items: center; gap: 9px; box-shadow: 0 10px 28px rgba(242,182,60,.28); }
-      .btn-gen svg { width: 19px; height: 19px; }
+      .gen-note { color: var(--gold-2); font-size: 0.92rem; font-weight: 600; margin: 0 0 14px; line-height: 1.6; background: rgba(242,182,60,.08); border: 1px solid var(--line-gold); border-radius: 10px; padding: 10px 14px; }
+      /* Mục 2: MỘT hàng ngang duy nhất, 4 cột — Mã hệ thống | Tên của bạn
+         (username) | Mã tham gia (sao chép / tải về) | Bình chọn xong.
+         Mọi trường hiện ngay từ đầu; KHÔNG đánh số bên trong (đã nằm trong
+         mục 2). Mỗi cột: nhãn ở trên, ô nhập/nút căn đáy thẳng hàng nhau. */
+      .code-row { display: grid; grid-template-columns: 1fr 1.1fr 1.95fr auto; gap: 10px; align-items: stretch; }
+      .code-col { display: flex; flex-direction: column; min-width: 0; }
+      .code-col > label { display: block; font-weight: 800; font-size: .9rem; margin: 0 0 8px; }
+      .code-col .col-body { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
+      .btn-gen { background: linear-gradient(180deg, var(--gold-2), var(--gold) 55%, #d99a22); border: none; color: #241300; font-weight: 900; font-size: .98rem; border-radius: 10px; padding: 10px 18px; min-height: 3rem; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 10px 28px rgba(242,182,60,.28); white-space: nowrap; }
+      .btn-gen svg { width: 19px; height: 19px; flex: none; }
       .btn-gen:hover { filter: brightness(1.07); }
       .btn-gen:disabled { opacity: .72; cursor: default; filter: none; background: rgba(242,182,60,.14); color: var(--gold-2); border: 1.5px solid var(--gold); box-shadow: none; }
-      .gen-frames { display: grid; gap: 14px; margin-top: 18px; }
-      .gen-frames[hidden] { display: none !important; }
-      .gen-frame { background: rgba(10,6,24,.55); border: 1px solid var(--line); border-radius: 11px; padding: 14px 16px; }
-      .gen-frame[hidden] { display: none !important; }
-      .gen-frame label { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: .94rem; margin-bottom: 9px; }
-      .gen-frame label .f-num { flex: none; width: 24px; height: 24px; border-radius: 50%; background: rgba(242,182,60,.16); border: 1px solid var(--line-gold); color: var(--gold-2); font-size: .78rem; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; }
-      .gen-input { width: 100%; background: #0a0618; border: 1.5px solid var(--line); border-radius: 10px; color: var(--gold-2); font-size: 1.08rem; font-weight: 800; letter-spacing: .06em; padding: 11px 14px; outline: none; min-height: 3.1rem; }
+      .btn-gen.is-done { min-height: 2rem; padding: 5px 12px; font-size: .8rem; border-radius: 8px; }
+      .btn-gen.is-done svg { width: 15px; height: 15px; }
+      .gen-input { width: 100%; background: #0a0618; border: 1.5px solid var(--line); border-radius: 10px; color: var(--gold-2); font-size: 1.05rem; font-weight: 800; letter-spacing: .06em; padding: 10px 13px; outline: none; min-height: 3rem; }
+      .gen-input[hidden] { display: none !important; }
       .gen-input[readonly] { border-style: dashed; }
       .gen-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(242,182,60,.18); }
       .username-input { color: var(--text); letter-spacing: .02em; }
       .username-input::placeholder { color: #554d78; font-weight: 600; letter-spacing: 0; font-size: .95rem; }
-      .field-note { color: var(--muted-2); font-size: .8rem; margin: 8px 0 0; line-height: 1.55; }
-      .full-row { display: flex; gap: 9px; flex-wrap: wrap; }
-      .full-row .gen-input { flex: 1 1 220px; color: var(--nz-green); border-color: rgba(111,211,72,.5); }
-      .btn-copy, .btn-download { border-radius: 10px; padding: 11px 18px; font-weight: 800; font-size: .92rem; min-height: 3.1rem; display: inline-flex; align-items: center; gap: 7px; }
+      .code-col-full .col-body { position: relative; }
+      .full-row { display: flex; gap: 8px; flex-wrap: nowrap; align-items: stretch; }
+      .full-row .gen-input { flex: 1 1 auto; min-width: 0; padding-left: 10px; padding-right: 10px; color: var(--nz-green); border-color: rgba(111,211,72,.5); }
+      .btn-copy, .btn-download { border-radius: 10px; padding: 10px 11px; font-weight: 800; font-size: .86rem; min-height: 3rem; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex: none; }
       .btn-copy svg, .btn-download svg { width: 16px; height: 16px; }
       .btn-copy { background: var(--nz-green); border: none; color: #0e2008; }
       .btn-copy:hover { filter: brightness(1.08); }
       .btn-download { background: transparent; border: 1.5px solid var(--line-gold); color: var(--gold-2); }
       .btn-download:hover { background: rgba(242,182,60,.12); }
-      .copy-status { margin: 9px 0 0; font-size: .86rem; color: var(--ok); font-weight: 700; min-height: 1.2em; }
-      .submit-row { margin-top: 18px; display: flex; justify-content: flex-end; }
-      @media (max-width: 560px) { .submit-row { justify-content: stretch; } .submit-row .btn-submit-inline { width: 100%; } .btn-gen { width: 100%; justify-content: center; } }
+      .btn-copy:disabled, .btn-download:disabled { opacity: .4; cursor: default; filter: none; }
+      .btn-copy:disabled:hover { filter: none; }
+      .btn-download:disabled:hover { background: transparent; }
+      .copy-status { position: absolute; top: calc(100% + 3px); left: 0; margin: 0; font-size: .84rem; color: var(--ok); font-weight: 700; white-space: nowrap; pointer-events: none; }
+      .code-row .btn-submit-inline { min-height: 3rem; width: 100%; }
+      @media (max-width: 760px) { .code-row { grid-template-columns: 1fr 1fr; } .copy-status { position: static; white-space: normal; } }
+      @media (max-width: 480px) { .code-row { grid-template-columns: 1fr; } }
 
       /* Sticky progress */
       .progress-sticky {
@@ -725,6 +734,21 @@
         .ballot-row .b-cat { flex: none; }
       }
       .confirm-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+
+      /* Lịch sử vote của bạn — lưu trong trình duyệt này, nằm ngay dưới bảng xác nhận */
+      .history-panel { display: none; margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+      .history-panel.show { display: block; }
+      .history-panel h3 { margin: 0 0 4px; font-size: 1.12rem; font-weight: 800; }
+      .history-panel .h-sub { color: var(--muted); font-size: 0.86rem; margin: 0; line-height: 1.55; }
+      .history-item { margin-top: 16px; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+      .history-item.old { opacity: 0.62; }
+      .history-head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: center; padding: 11px 16px; background: rgba(10, 6, 24, 0.7); }
+      .history-head .h-code { font-weight: 800; color: var(--gold-2); letter-spacing: 0.03em; font-size: 0.93rem; word-break: break-all; }
+      .history-head .h-time { color: var(--muted); font-size: 0.83rem; margin-left: auto; }
+      .history-badge { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.03em; padding: 4px 10px; border-radius: 999px; background: #6fd348; color: #0d2406; white-space: nowrap; }
+      .history-badge.old { background: transparent; border: 1px solid var(--line); color: var(--muted); }
+      .history-rows .ballot-row { background: rgba(10, 6, 24, 0.35); }
+      .history-rows .ballot-row:nth-child(even) { background: rgba(139, 108, 255, 0.05); }
       .btn-gold-sm { background: linear-gradient(180deg, var(--gold-2), var(--gold)); border: none; color: #241300; font-weight: 800; border-radius: 10px; padding: 11px 20px; font-size: 0.92rem; display: inline-flex; gap: 8px; align-items: center; }
       .btn-gold-sm svg { width: 16px; height: 16px; }
       .btn-ghost { background: transparent; border: 1.5px solid var(--line); color: var(--text); font-weight: 700; border-radius: 10px; padding: 11px 20px; font-size: 0.92rem; }
@@ -976,41 +1000,48 @@
             Mã tham gia của bạn
           </h3>
           <p class="gen-note">Mã này dành riêng cho bạn, hãy lưu lại và không tiết lộ để nhận thưởng.</p>
-          <button class="btn-gen" id="btn-gen-code" type="button">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h.01M17.5 14h.01M10 14h4"/></svg>
-            <span id="btn-gen-label">Tạo Mã Tham Gia</span>
-          </button>
-          <div class="gen-frames" id="gen-frames" hidden>
-            <div class="gen-frame">
-              <label><span class="f-num">1</span> Mã tham gia</label>
-              <input class="gen-input" id="gen-code-display" type="text" readonly value="" aria-label="Mã tham gia đã tạo" />
-            </div>
-            <div class="gen-frame">
-              <label for="username-input"><span class="f-num">2</span> Tên của bạn (username)</label>
-              <input class="gen-input username-input" id="username-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="20" placeholder="Ví dụ: NguyeZ2026" aria-label="Tên của bạn (username)" />
-              <p class="field-note">Chỉ dùng chữ (có dấu tiếng Việt cũng được) và chữ số — không khoảng trắng, không ký tự đặc biệt, tối đa 20 ký tự.</p>
-            </div>
-            <div class="gen-frame" id="frame-full" hidden>
-              <label><span class="f-num">3</span> Mã tham gia của bạn</label>
-              <div class="full-row">
-                <input class="gen-input" id="full-code-display" type="text" readonly value="" aria-label="Mã tham gia đầy đủ của bạn" />
-                <button class="btn-copy" id="btn-copy-code" type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
-                  Sao chép
-                </button>
-                <button class="btn-download" id="btn-download-code" type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 11L12 15.5 16.5 11M4.5 19.5h15"/></svg>
-                  Tải về .txt
+          <div class="code-row">
+            <div class="code-col">
+              <label>Mã hệ thống</label>
+              <div class="col-body">
+                <input class="gen-input" id="gen-code-display" type="text" readonly value="" aria-label="Mã hệ thống đã tạo" hidden />
+                <button class="btn-gen" id="btn-gen-code" type="button">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h.01M17.5 14h.01M10 14h4"/></svg>
+                  <span id="btn-gen-label">Tạo Mã Tham Gia</span>
                 </button>
               </div>
-              <p class="copy-status" id="copy-status" role="status"></p>
             </div>
-          </div>
-          <div class="submit-row">
-            <button class="btn-submit-inline" id="btn-submit" type="button">
-              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.8-4.8 4.4 1.3 6.4L12 17l-5.8 3.1 1.3-6.4L2.7 9.3l6.5-.8L12 2.6z"/></svg>
-              Bình chọn xong
-            </button>
+            <div class="code-col">
+              <label for="username-input">Tên của bạn (username)</label>
+              <div class="col-body">
+                <input class="gen-input username-input" id="username-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="20" placeholder="Ví dụ: NguyeZ2026" aria-label="Tên của bạn (username)" />
+              </div>
+            </div>
+            <div class="code-col code-col-full">
+              <label>Mã tham gia</label>
+              <div class="col-body">
+                <div class="full-row">
+                  <input class="gen-input" id="full-code-display" type="text" readonly value="" placeholder="—" aria-label="Mã tham gia đầy đủ của bạn" />
+                  <button class="btn-copy" id="btn-copy-code" type="button" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
+                    Sao chép
+                  </button>
+                  <button class="btn-download" id="btn-download-code" type="button" disabled>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 11L12 15.5 16.5 11M4.5 19.5h15"/></svg>
+                    Tải về .txt
+                  </button>
+                </div>
+                <p class="copy-status" id="copy-status" role="status"></p>
+              </div>
+            </div>
+            <div class="code-col">
+              <div class="col-body">
+                <button class="btn-submit-inline" id="btn-submit" type="button">
+                  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.6l2.8 5.9 6.5.8-4.8 4.4 1.3 6.4L12 17l-5.8 3.1 1.3-6.4L2.7 9.3l6.5-.8L12 2.6z"/></svg>
+                  Bình chọn xong
+                </button>
+              </div>
+            </div>
           </div>
           <div class="code-status" id="code-status" role="status"></div>
           <div class="missing-list" id="missing-list"></div>
@@ -1040,6 +1071,13 @@
             <button class="btn-ghost" id="btn-edit" type="button">Chỉnh sửa lựa chọn</button>
             <button class="btn-ghost" id="btn-reset" type="button">Làm phiếu mới</button>
           </div>
+        </div>
+
+        <!-- Lịch sử vote của bạn: các phiếu đã gửi từ trình duyệt này (mã đã che) -->
+        <div class="history-panel" id="history-panel">
+          <h3>Lịch sử vote của bạn</h3>
+          <p class="h-sub">Các phiếu bạn đã gửi từ trình duyệt này. Phiếu mới nhất của bạn là phiếu đang được tính — gửi lại để đổi vote thì phiếu mới nhất sẽ thay phiếu cũ.</p>
+          <div id="history-list"></div>
         </div>
       </section>
 
@@ -1776,14 +1814,14 @@
 
       /* ===== Kiểm tra mã — đúng công thức GA 01 =====
          Mã do trang TỰ TẠO ở mục 2 (nút "Tạo Mã Tham Gia") + username
-         người dùng tự gõ, ghép thành "MÃ-username" ở khung 3.
+         người dùng tự gõ, ghép thành "MÃ-username" ở cột 3.
          1. Kiểm tra: 10 ký tự mã check như cũ (đúng bảng chữ, checksum khớp).
          2. Ghi Sheet: ghi NGUYÊN chuỗi "MÃ-username" vào cột A
             (chỉ trong Sheet, không hiển thị đầy đủ lên web).
          3. Không chặn trùng: mã đã dùng vẫn ghi tiếp để đổi vote.
          4. Hiển thị công khai trên web: username giữ nguyên kèm 3 ký tự
             đầu của mã đã che, dạng "ncnz (K7M***) đã Vote". Mã đầy đủ chỉ
-            hiện ở khung 3 của chính chủ mã để họ sao chép / tải về lưu lại. */
+            hiện ở cột 3 của chính chủ mã để họ sao chép / tải về lưu lại. */
       function normalizeGiveawayCode(input) {
         return String(input || "").trim().split("-")[0];
       }
@@ -1864,40 +1902,113 @@
         var masked = maskCode(fullCode);
         return u ? u + " (" + masked + ") đã Vote" : "Thành viên (" + masked + ") đã Vote";
       }
-      /* Mã đầy đủ ở khung 3: "MÃ-username" — chuỗi này được gửi đi khi vote
+      /* ===== Lịch sử vote của bạn (localStorage của trình duyệt này) =====
+         Sau mỗi lần gửi phiếu THÀNH CÔNG, lưu thêm 1 mục vào khóa
+         goty2026_history (không ghi đè mục cũ — gửi lại để đổi vote thì
+         thêm mục mới). Mỗi mục: giờ vote + mã ĐÃ CHE + 5 lựa chọn.
+         Che mã trong lịch sử: 6 ký tự đầu của mã người dùng (10 ký tự)
+         + "****" (che đúng 4 ký tự đuôi) + "-" + username, ví dụ
+         "H2GCSD****-ncnz". KHÔNG BAO GIỜ lưu hay hiện mã đầy đủ trong
+         lịch sử. Cách che này CHỈ dùng cho lịch sử — hiển thị "đã Vote"
+         (maskCode: 3 ký tự đầu + ***) giữ nguyên, không đổi.
+         Khóa đếm phiếu = MÃ NGƯỜI DÙNG (10 ký tự), KHÔNG phải username:
+         cùng mã người dùng mà username khác nhau vẫn là 1 người, được
+         vote lại; mục MỚI NHẤT của mã đó là phiếu đang được tính. */
+      var LS_HISTORY_KEY = "goty2026_history";
+      function maskCodeForHistory(fullCode) {
+        var c = normalizeGiveawayCode(fullCode).toUpperCase();
+        var u = extractUsername(fullCode);
+        var masked = c.length >= 6 ? c.slice(0, 6) + "****" : "******";
+        return u ? masked + "-" + u : masked;
+      }
+      /* Khóa nhóm của 1 mục lịch sử: 6 ký tự đầu đã che của mã người dùng —
+         đủ để nhận ra các mục cùng 1 mã người dùng (kể cả khi username đã
+         đổi) mà không cần lưu mã đầy đủ vào lịch sử */
+      function historyKeyOf(fullCode) {
+        var c = normalizeGiveawayCode(fullCode).toUpperCase();
+        return c ? c.slice(0, 6) : "";
+      }
+      function loadHistory() {
+        try {
+          var arr = JSON.parse(lsGet(LS_HISTORY_KEY) || "[]");
+          return Array.isArray(arr) ? arr : [];
+        } catch (e) { return []; }
+      }
+      function saveHistoryEntry(entry) {
+        var arr = loadHistory();
+        arr.push(entry);
+        lsSet(LS_HISTORY_KEY, JSON.stringify(arr));
+      }
+      function renderHistory() {
+        var panel = $("history-panel");
+        var list = $("history-list");
+        if (!panel || !list) return;
+        var arr = loadHistory();
+        if (!arr.length) {
+          panel.classList.remove("show");
+          list.innerHTML = "";
+          return;
+        }
+        /* Mục mới nhất của từng mã người dùng = phiếu đang được tính;
+           các mục cũ hơn cùng mã người dùng không còn được tính */
+        var latestByKey = {};
+        arr.forEach(function (e, i) { latestByKey[e.key || ""] = i; });
+        var html = "";
+        for (var i = arr.length - 1; i >= 0; i--) {
+          var e = arr[i];
+          var isCurrent = latestByKey[e.key || ""] === i;
+          html += '<div class="history-item' + (isCurrent ? "" : " old") + '">';
+          html += '<div class="history-head"><span class="h-code">' + esc(e.masked || "") + "</span>";
+          html += isCurrent
+            ? '<span class="history-badge">Phiếu đang tính</span>'
+            : '<span class="history-badge old">Phiếu cũ — không còn tính</span>';
+          html += '<span class="h-time">' + esc(e.time || "") + "</span></div>";
+          html += '<div class="history-rows">';
+          (e.choices || []).forEach(function (ch, ci) {
+            html += '<div class="ballot-row"><span class="b-cat">' + (ci + 1) + ". " + esc(ch.cat || "") + '</span><span class="b-game">' + esc(ch.game || "") + "</span></div>";
+          });
+          html += "</div></div>";
+        }
+        list.innerHTML = html;
+        panel.classList.add("show");
+      }
+      /* Mã đầy đủ ở cột 3: "MÃ-username" — chuỗi này được gửi đi khi vote
          và ghi vào cột A (chỉ trong Sheet, không hiển thị đầy đủ lên web) */
       function currentFullCode() {
         if (!generatedCode) return "";
         var u = currentUsername();
         return u ? generatedCode + "-" + u : "";
       }
-      /* Cập nhật 3 khung theo trạng thái hiện tại: có mã thì hiện khung,
-         có username hợp lệ thì hiện khung 3 với mã đầy đủ mới nhất */
+      /* Cập nhật hàng 4 cột của mục 2 theo trạng thái hiện tại. Mọi trường
+         hiện ngay từ đầu: cột 1 chưa có mã thì hiện nút "Tạo Mã Tham Gia",
+         có mã rồi thì hiện mã + nút chuyển sang trạng thái đã có mã (vô
+         hiệu hóa, thu nhỏ ngay trong cột 1); cột 3 luôn hiện ô mã đầy đủ,
+         chưa đủ mã + username thì để trống và 2 nút Sao chép / Tải về bị
+         vô hiệu cho tới khi có mã đầy đủ */
       function refreshCodeUI() {
-        var frames = $("gen-frames");
         var btn = $("btn-gen-code");
         var label = $("btn-gen-label");
-        if (!frames || !btn) return;
+        var codeInput = $("gen-code-display");
+        if (!btn || !codeInput) return;
         if (generatedCode) {
-          frames.hidden = false;
-          $("gen-code-display").value = generatedCode;
+          codeInput.hidden = false;
+          codeInput.value = generatedCode;
           btn.disabled = true;
+          btn.classList.add("is-done");
           if (label) label.textContent = "Bạn đã có mã tham gia";
         } else {
-          frames.hidden = true;
+          codeInput.hidden = true;
+          codeInput.value = "";
           btn.disabled = false;
+          btn.classList.remove("is-done");
           if (label) label.textContent = "Tạo Mã Tham Gia";
         }
         var full = currentFullCode();
-        var frameFull = $("frame-full");
-        if (frameFull) {
-          if (full) {
-            frameFull.hidden = false;
-            $("full-code-display").value = full;
-          } else {
-            frameFull.hidden = true;
-          }
-        }
+        $("full-code-display").value = full;
+        var copyBtn = $("btn-copy-code");
+        var dlBtn = $("btn-download-code");
+        if (copyBtn) copyBtn.disabled = !full;
+        if (dlBtn) dlBtn.disabled = !full;
       }
       function showCodeStatus(ok, msg) {
         var box = $("code-status");
@@ -1914,7 +2025,7 @@
         return ok;
       }
       /* Nút Tạo Mã Tham Gia: tạo đúng 1 mã hợp lệ GA 01 cho trình duyệt này,
-         lưu vào localStorage rồi tự điền vào khung 1. Đã có mã thì nút bị
+         lưu vào localStorage rồi tự điền vào cột 1. Đã có mã thì nút bị
          vô hiệu hóa (xem refreshCodeUI) — không tạo mã mới, không reset. */
       $("btn-gen-code").addEventListener("click", function () {
         if (generatedCode) { refreshCodeUI(); return; }
@@ -1925,8 +2036,8 @@
         var uEl = $("username-input");
         if (uEl) uEl.focus();
       });
-      /* Khung 2 — username do người dùng tự gõ: lọc ký tự không hợp lệ ngay
-         lúc gõ, lưu vào localStorage, khung 3 tự cập nhật theo */
+      /* Cột 2 — username do người dùng tự gõ: lọc ký tự không hợp lệ ngay
+         lúc gõ, lưu vào localStorage, cột 3 tự cập nhật theo */
       $("username-input").addEventListener("input", function (e) {
         var clean = sanitizeUsername(e.target.value);
         if (clean !== e.target.value) e.target.value = clean;
@@ -1936,7 +2047,7 @@
         refreshCodeUI();
         hideSubmitMsg();
       });
-      /* Khung 3 — Sao chép mã đầy đủ vào clipboard */
+      /* Cột 3 — Sao chép mã đầy đủ vào clipboard */
       $("btn-copy-code").addEventListener("click", function () {
         var full = currentFullCode();
         if (!full) return;
@@ -1955,7 +2066,7 @@
         el.setAttribute("readonly", "");
         if (window.getSelection) window.getSelection().removeAllRanges();
       }
-      /* Khung 3 — Tải về file .txt: nội dung CHỈ CÓ mã đầy đủ "MÃ-username" */
+      /* Cột 3 — Tải về file .txt: nội dung CHỈ CÓ mã đầy đủ "MÃ-username" */
       $("btn-download-code").addEventListener("click", function () {
         var full = currentFullCode();
         if (!full) return;
@@ -2024,6 +2135,18 @@
           liveVotes[gi2][picks[gi2]] = (liveVotes[gi2][picks[gi2]] || 0) + 1;
         }
         recordedVotes.push({ code: fullCode, normCode: code, picks: picks, time: timeStr });
+        /* Lưu 1 mục vào "Lịch sử vote của bạn" (localStorage, trình duyệt
+           này): giờ vote + mã ĐÃ CHE (6 ký tự đầu + **** + -username) +
+           5 lựa chọn — không lưu mã đầy đủ vào lịch sử */
+        saveHistoryEntry({
+          time: timeStr,
+          masked: maskCodeForHistory(fullCode),
+          key: historyKeyOf(fullCode),
+          choices: picks.map(function (p, ci) {
+            return { cat: CATEGORIES[ci].name, game: CATEGORIES[ci].games[p] ? CATEGORIES[ci].games[p].name : "" };
+          })
+        });
+        renderHistory();
         renderResults();
         setSendStatus("ok", "<b>Phiếu của bạn đã được ghi nhận!</b>");
         /* Hiển thị công khai: "ncnz (K7M***) đã Vote" — username + 3 ký tự đầu của mã, không hiện mã đầy đủ */
@@ -2292,8 +2415,8 @@
       }
 
       /* ===== Khởi tạo ===== */
-      /* Mở lại trang: điền sẵn username đã lưu (khung 2) + hiện sẵn khung 3,
-         mã ở khung 1 là mã đã lưu của trình duyệt này — không tạo mã mới */
+      /* Mở lại trang: điền sẵn username đã lưu (cột 2), mã ở cột 1 là mã
+         đã lưu của trình duyệt này — không tạo mã mới */
       (function restoreSavedIdentity() {
         var uEl = $("username-input");
         var savedUser = sanitizeUsername(lsGet(LS_USER_KEY));
@@ -2302,6 +2425,9 @@
       })();
       renderStrip();
       renderResults();
+      /* Mở lại trang: nếu trình duyệt này đã có lịch sử vote lưu sẵn thì
+         hiện sẵn danh sách "Lịch sử vote của bạn" ngay dưới khu vực xác nhận */
+      renderHistory();
       buildRing(false);
       updateCta();
       updateProgress();
