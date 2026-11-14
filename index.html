@@ -598,17 +598,28 @@
       /* Mục 2: MỘT hàng ngang duy nhất, 4 cột — Mã hệ thống | Tên của bạn
          (username) | Mã tham gia (sao chép / tải về) | Bình chọn xong.
          Mọi trường hiện ngay từ đầu; KHÔNG đánh số bên trong (đã nằm trong
-         mục 2). Mỗi cột: nhãn ở trên, ô nhập/nút căn đáy thẳng hàng nhau. */
-      .code-row { display: grid; grid-template-columns: 1fr 1.1fr 1.95fr auto; gap: 10px; align-items: stretch; }
+         mục 2). Mỗi cột: nhãn ở trên, ô nhập/nút căn đáy thẳng hàng nhau.
+         Cột 1 cố định 14rem (224px): đã ĐO theo font Be Vietnam Pro 800 ở
+         1.05rem + letter-spacing .06em — mã 10 ký tự xấu nhất (toàn ký tự
+         rộng nhất) cần ≈219,5px gồm padding/border, nút "Tạo Mã Tham Gia"
+         cần ≈205px, nên 224px vừa đủ hiện full mã, không thừa không cắt.
+         Phần rộng tiết kiệm được dồn cho cột 3 (2.4fr) để ô mã đầy đủ
+         "MÃ-username" hiện được nhiều nhất. */
+      .code-row { display: grid; grid-template-columns: 14rem 1fr 2.4fr auto; gap: 10px; align-items: stretch; }
       .code-col { display: flex; flex-direction: column; min-width: 0; }
       .code-col > label { display: block; font-weight: 800; font-size: .9rem; margin: 0 0 8px; }
       .code-col .col-body { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
       .btn-gen { background: linear-gradient(180deg, var(--gold-2), var(--gold) 55%, #d99a22); border: none; color: #241300; font-weight: 900; font-size: .98rem; border-radius: 10px; padding: 10px 18px; min-height: 3rem; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 10px 28px rgba(242,182,60,.28); white-space: nowrap; }
       .btn-gen svg { width: 19px; height: 19px; flex: none; }
       .btn-gen:hover { filter: brightness(1.07); }
-      .btn-gen:disabled { opacity: .72; cursor: default; filter: none; background: rgba(242,182,60,.14); color: var(--gold-2); border: 1.5px solid var(--gold); box-shadow: none; }
-      .btn-gen.is-done { min-height: 2rem; padding: 5px 12px; font-size: .8rem; border-radius: 8px; }
-      .btn-gen.is-done svg { width: 15px; height: 15px; }
+      /* Cột 1 chỉ có MỘT ô duy nhất, chiều cao cố định 3rem: nút "Tạo Mã
+         Tham Gia" và ô hiện mã thay nhau TRONG CÙNG Ô này (cùng vị trí,
+         cùng chiều cao) nên bấm tạo mã không làm trang dịch chuyển —
+         không layout shift. Nút "Bạn đã có mã tham gia" đã bỏ hẳn: có mã
+         thì ô hiện mã thay cho nút, không còn tầng thứ hai nào. */
+      .sys-slot { height: 3rem; }
+      .sys-slot .btn-gen, .sys-slot .gen-input { height: 100%; min-height: 0; }
+      .btn-gen[hidden] { display: none !important; }
       .gen-input { width: 100%; background: #0a0618; border: 1.5px solid var(--line); border-radius: 10px; color: var(--gold-2); font-size: 1.05rem; font-weight: 800; letter-spacing: .06em; padding: 10px 13px; outline: none; min-height: 3rem; }
       .gen-input[hidden] { display: none !important; }
       .gen-input[readonly] { border-style: dashed; }
@@ -617,9 +628,15 @@
       .username-input::placeholder { color: #554d78; font-weight: 600; letter-spacing: 0; font-size: .95rem; }
       .code-col-full .col-body { position: relative; }
       .full-row { display: flex; gap: 8px; flex-wrap: nowrap; align-items: stretch; }
-      .full-row .gen-input { flex: 1 1 auto; min-width: 0; padding-left: 10px; padding-right: 10px; color: var(--nz-green); border-color: rgba(111,211,72,.5); }
-      .btn-copy, .btn-download { border-radius: 10px; padding: 10px 11px; font-weight: 800; font-size: .86rem; min-height: 3rem; display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; flex: none; }
-      .btn-copy svg, .btn-download svg { width: 16px; height: 16px; }
+      /* Ô mã đầy đủ canh LỀ PHẢI: chuỗi "MÃ-username" dài hơn ô thì phần
+         mã ở đầu (bên trái) bị ẩn đi, phần username ở cuối hiện trước.
+         KHÔNG dùng text-overflow: ellipsis — dấu "..." sẽ che mất
+         username ở cuối; input tự cắt phần tràn ở phía trái. */
+      .full-row .gen-input { flex: 1 1 auto; min-width: 0; padding-left: 10px; padding-right: 10px; color: var(--nz-green); border-color: rgba(111,211,72,.5); text-align: right; }
+      /* Nút Sao chép / Tải về: CHỈ CÓ ICON, không chữ (chức năng ghi ở
+         title/aria-label). Vẫn cao 3rem bằng ô nhập bên cạnh. */
+      .btn-copy, .btn-download { border-radius: 10px; padding: 10px 12px; min-height: 3rem; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+      .btn-copy svg, .btn-download svg { width: 18px; height: 18px; }
       .btn-copy { background: var(--nz-green); border: none; color: #0e2008; }
       .btn-copy:hover { filter: brightness(1.08); }
       .btn-download { background: transparent; border: 1.5px solid var(--line-gold); color: var(--gold-2); }
@@ -1004,11 +1021,13 @@
             <div class="code-col">
               <label>Mã hệ thống</label>
               <div class="col-body">
-                <input class="gen-input" id="gen-code-display" type="text" readonly value="" aria-label="Mã hệ thống đã tạo" hidden />
-                <button class="btn-gen" id="btn-gen-code" type="button">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h.01M17.5 14h.01M10 14h4"/></svg>
-                  <span id="btn-gen-label">Tạo Mã Tham Gia</span>
-                </button>
+                <div class="sys-slot">
+                  <input class="gen-input" id="gen-code-display" type="text" readonly value="" aria-label="Mã hệ thống đã tạo" hidden />
+                  <button class="btn-gen" id="btn-gen-code" type="button">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h.01M17.5 14h.01M10 14h4"/></svg>
+                    <span id="btn-gen-label">Tạo Mã Tham Gia</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="code-col">
@@ -1022,13 +1041,11 @@
               <div class="col-body">
                 <div class="full-row">
                   <input class="gen-input" id="full-code-display" type="text" readonly value="" placeholder="—" aria-label="Mã tham gia đầy đủ của bạn" />
-                  <button class="btn-copy" id="btn-copy-code" type="button" disabled>
+                  <button class="btn-copy" id="btn-copy-code" type="button" title="Sao chép" aria-label="Sao chép" disabled>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></svg>
-                    Sao chép
                   </button>
-                  <button class="btn-download" id="btn-download-code" type="button" disabled>
+                  <button class="btn-download" id="btn-download-code" type="button" title="Tải về .txt" aria-label="Tải về .txt" disabled>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7.5 11L12 15.5 16.5 11M4.5 19.5h15"/></svg>
-                    Tải về .txt
                   </button>
                 </div>
                 <p class="copy-status" id="copy-status" role="status"></p>
@@ -1980,28 +1997,24 @@
         return u ? generatedCode + "-" + u : "";
       }
       /* Cập nhật hàng 4 cột của mục 2 theo trạng thái hiện tại. Mọi trường
-         hiện ngay từ đầu: cột 1 chưa có mã thì hiện nút "Tạo Mã Tham Gia",
-         có mã rồi thì hiện mã + nút chuyển sang trạng thái đã có mã (vô
-         hiệu hóa, thu nhỏ ngay trong cột 1); cột 3 luôn hiện ô mã đầy đủ,
-         chưa đủ mã + username thì để trống và 2 nút Sao chép / Tải về bị
-         vô hiệu cho tới khi có mã đầy đủ */
+         hiện ngay từ đầu: cột 1 chỉ có MỘT ô cố định (.sys-slot) — chưa có
+         mã thì ô đó là nút "Tạo Mã Tham Gia", có mã rồi thì ô đó hiện mã
+         thay cho nút (nút ẩn hẳn, không còn nút "Bạn đã có mã tham gia"),
+         cùng vị trí và chiều cao nên không có layout shift; cột 3 luôn
+         hiện ô mã đầy đủ, chưa đủ mã + username thì để trống và 2 nút
+         Sao chép / Tải về bị vô hiệu cho tới khi có mã đầy đủ */
       function refreshCodeUI() {
         var btn = $("btn-gen-code");
-        var label = $("btn-gen-label");
         var codeInput = $("gen-code-display");
         if (!btn || !codeInput) return;
         if (generatedCode) {
           codeInput.hidden = false;
           codeInput.value = generatedCode;
-          btn.disabled = true;
-          btn.classList.add("is-done");
-          if (label) label.textContent = "Bạn đã có mã tham gia";
+          btn.hidden = true;
         } else {
           codeInput.hidden = true;
           codeInput.value = "";
-          btn.disabled = false;
-          btn.classList.remove("is-done");
-          if (label) label.textContent = "Tạo Mã Tham Gia";
+          btn.hidden = false;
         }
         var full = currentFullCode();
         $("full-code-display").value = full;
@@ -2025,8 +2038,9 @@
         return ok;
       }
       /* Nút Tạo Mã Tham Gia: tạo đúng 1 mã hợp lệ GA 01 cho trình duyệt này,
-         lưu vào localStorage rồi tự điền vào cột 1. Đã có mã thì nút bị
-         vô hiệu hóa (xem refreshCodeUI) — không tạo mã mới, không reset. */
+         lưu vào localStorage rồi tự điền vào cột 1. Đã có mã thì nút bị ẩn
+         hẳn và ô hiện mã thay vào cùng vị trí (xem refreshCodeUI) — không
+         tạo mã mới, không reset. */
       $("btn-gen-code").addEventListener("click", function () {
         if (generatedCode) { refreshCodeUI(); return; }
         generatedCode = generateGiveawayCode();
@@ -2074,7 +2088,7 @@
         var url = URL.createObjectURL(blob);
         var a = document.createElement("a");
         a.href = url;
-        a.download = "ma-tham-gia.txt";
+        a.download = "01-Ma-Tham-Gia-GOTY2026-NguyeZ.com.txt";
         document.body.appendChild(a);
         a.click();
         a.remove();
