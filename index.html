@@ -506,6 +506,8 @@
       .rb-head .cat-desc { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
       .rb-tag { margin-left: auto; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-2); background: rgba(242, 182, 60, 0.12); border: 1px solid var(--line-gold); padding: 5px 11px; border-radius: 999px; }
       .rb-list { list-style: none; margin: 0; padding: 0; }
+      .rb-empty { padding: 14px 2px 18px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid rgba(148, 128, 255, 0.12); }
+      .stats-note { margin: 16px 0 0; text-align: center; color: var(--gold-2); font-size: 0.93rem; font-weight: 700; }
       .rb-row { display: flex; align-items: center; gap: 12px; padding: 8px 2px; border-top: 1px solid rgba(148, 128, 255, 0.12); }
       .rb-rank { flex: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; background: rgba(139, 108, 255, 0.13); color: var(--muted); border: 1px solid var(--line); }
       .rb-row.top .rb-rank { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: #241300; border-color: var(--gold); box-shadow: 0 0 16px rgba(242, 182, 60, 0.4); }
@@ -1117,6 +1119,7 @@
           </div>
         </div>
         <div id="result-boards"></div>
+        <p id="stats-note" class="stats-note" hidden>Không tải được thống kê, thử tải lại trang.</p>
       </section>
 
       <footer>
@@ -1217,19 +1220,15 @@
           ] }
       ];
 
-      /* Số phiếu mẫu cho bảng kết quả của bản phác thảo (chưa phải số liệu thật) */
-      var SAMPLE_VOTES = [
-        [412, 365, 298, 187, 154, 121],
-        [356, 288, 231, 176, 149],
-        [388, 302, 219, 168, 133],
-        [341, 276, 224, 158, 117],
-        [364, 331, 207, 142, 119]
-      ];
       /* GA 01: phiếu gồm 5 hạng mục ghi vào Sheet (cột D–H); cột I–J để trống giữ nguyên bố cục 11 cột A–K. */
       var VOTE_COUNT = 5;
 
-      /* ===== Gửi phiếu qua Apps Script =====
-         liveVotes = số phiếu mẫu + các phiếu ĐÃ GỬI lệnh ghi trên trang này.
+      /* ===== Thống kê THẬT từ Sheet (qua Apps Script ?action=stats) =====
+         statsState: "loading" = đang tải (bảng hiện "—"), "ok" = đã có số
+         thật trong statsCats, "error" = tải lỗi hoặc server chưa có đường
+         stats (bảng giữ "—" + hiện ghi chú — KHÔNG hiện số mẫu nào cả).
+         statsCats[c] = { total, games: [{ name, votes }] }, games đã xếp
+         hạng phiếu giảm dần từ server.
          KHÔNG chặn mã trùng: mã đã dùng vẫn ghi tiếp (user được đổi vote,
          ban tổ chức tự lọc phiếu cuối trong Sheet).
          lastAttempt giữ phiếu vừa bấm gửi để onSendSuccess lấy đúng
@@ -1237,7 +1236,8 @@
          Lưu ý: mã đầy đủ chỉ dùng nội bộ để gửi tới Apps Script (ghi cột A
          trong Sheet) — trên web TUYỆT ĐỐI không hiển thị mã đầy đủ, ô nhập
          mã là kiểu password và mọi nhãn hiển thị đều dùng mã đã che. */
-      var liveVotes = SAMPLE_VOTES.map(function (row) { return row.slice(); });
+      var statsState = "loading";
+      var statsCats = null;
       var recordedVotes = [];
       var lastAttempt = null;
 
@@ -1370,28 +1370,96 @@
         pickRandomFx();
       }
 
-      /* ===== Bảng kết quả (chỉ xem) ===== */
+      /* ===== Bảng kết quả (chỉ xem) — số liệu THẬT từ Sheet =====
+         Ba trạng thái:
+         - "ok": hiện tổng phiếu thật + danh sách game đã xếp hạng kèm số
+           phiếu từng game (thứ tự do server xếp sẵn). Hạng mục chưa có
+           phiếu nào: tổng = 0 và ghi "Chưa có phiếu nào cho hạng mục này".
+         - "loading" / "error": chỉ hiện "—" ở mọi con số, không hiện bất
+           kỳ số nào khác; "error" thì kèm ghi chú dưới bảng. */
       function renderResults() {
+        var note = $("stats-note");
+        if (note) note.hidden = statsState !== "error";
         var html = "";
         CATEGORIES.forEach(function (cat, c) {
-          var votes = liveVotes[c].slice();
-          var order = cat.games.map(function (game, gi) { return { game: game, votes: votes[gi] || 0 }; });
-          order.sort(function (a, b) { return b.votes - a.votes; });
-          var total = order.reduce(function (s, o) { return s + o.votes; }, 0);
+          var entry = statsState === "ok" && statsCats ? statsCats[c] : null;
           html += '<div class="result-board">';
           html += '<div class="rb-head"><div class="cat-ico">' + ICONS[cat.icon] + "</div>";
-          html += '<div><h3>' + esc(cat.name) + '</h3><div class="rb-total">Tổng số phiếu: <b>' + total.toLocaleString("vi-VN") + "</b></div></div>";
-          html += '</div>';
-          html += '<ol class="rb-list">';
-          order.forEach(function (o, r) {
-            var pct = total ? Math.round(o.votes / total * 100) : 0;
-            html += '<li class="rb-row' + (r === 0 ? " top" : "") + '"><span class="rb-rank">' + (r + 1) + '</span><div class="rb-main">';
-            html += '<div class="rb-top"><span class="rb-name">' + esc(o.game.name) + '</span><span class="rb-votes"><b>' + o.votes.toLocaleString("vi-VN") + "</b> phiếu · " + pct + '%</span></div>';
-            html += '<div class="rb-bar"><div class="rb-fill" style="width:' + pct + '%"></div></div></div></li>';
-          });
-          html += "</ol></div>";
+          if (statsState === "ok") {
+            var total = entry ? (entry.total || 0) : 0;
+            html += '<div><h3>' + esc(cat.name) + '</h3><div class="rb-total">Tổng số phiếu: <b>' + total.toLocaleString("vi-VN") + "</b></div></div>";
+            html += '</div>';
+            if (!entry || !entry.games.length) {
+              html += '<ol class="rb-list"><li class="rb-empty">Chưa có phiếu nào cho hạng mục này</li></ol>';
+            } else {
+              html += '<ol class="rb-list">';
+              entry.games.forEach(function (ge, r) {
+                var v = ge.votes || 0;
+                var pct = total ? Math.round(v / total * 100) : 0;
+                html += '<li class="rb-row' + (r === 0 ? " top" : "") + '"><span class="rb-rank">' + (r + 1) + '</span><div class="rb-main">';
+                html += '<div class="rb-top"><span class="rb-name">' + esc(ge.name) + '</span><span class="rb-votes"><b>' + v.toLocaleString("vi-VN") + "</b> phiếu · " + pct + '%</span></div>';
+                html += '<div class="rb-bar"><div class="rb-fill" style="width:' + pct + '%"></div></div></div></li>';
+              });
+              html += "</ol>";
+            }
+          } else {
+            html += '<div><h3>' + esc(cat.name) + '</h3><div class="rb-total">Tổng số phiếu: <b>—</b></div></div>';
+            html += '</div>';
+            html += '<ol class="rb-list">';
+            cat.games.forEach(function (game) {
+              html += '<li class="rb-row"><span class="rb-rank">–</span><div class="rb-main">';
+              html += '<div class="rb-top"><span class="rb-name">' + esc(game.name) + '</span><span class="rb-votes"><b>—</b> phiếu</span></div>';
+              html += '<div class="rb-bar"><div class="rb-fill" style="width:0%"></div></div></div></li>';
+            });
+            html += "</ol>";
+          }
+          html += "</div>";
         });
         $("result-boards").innerHTML = html;
+      }
+
+      /* ===== Tải thống kê thật từ Apps Script =====
+         GET cùng URL ghi phiếu + "?action=stats", fetch THƯỜNG để đọc
+         được JSON trả về (KHÔNG dùng mode no-cors). Server trả:
+         { ok, action:"stats", totalVoters,
+           categories: [{ index:1..5, total, games:[{game, votes}] }] }.
+         Thiếu trường categories = Apps Script cũ chưa có đường stats →
+         coi như lỗi. Mọi lỗi ở đây chỉ đổi trạng thái bảng kết quả,
+         TUYỆT ĐỐI không đụng vào luồng vote. */
+      function loadStats(isRefresh) {
+        if (!isRefresh) { statsState = "loading"; statsCats = null; renderResults(); }
+        if (!GA01_APPS_SCRIPT_URL) {
+          if (!isRefresh) { statsState = "error"; renderResults(); }
+          return;
+        }
+        fetch(GA01_APPS_SCRIPT_URL + "?action=stats", { method: "GET" })
+          .then(function (resp) {
+            if (!resp.ok) throw new Error("stats http " + resp.status);
+            return resp.json();
+          })
+          .then(function (data) {
+            if (!data || !Array.isArray(data.categories)) throw new Error("stats: thieu categories");
+            var cats = [];
+            data.categories.forEach(function (entry) {
+              var idx = (entry.index || 0) - 1;
+              if (idx < 0 || idx >= VOTE_COUNT) return;
+              var games = [];
+              (entry.games || []).forEach(function (ge) {
+                games.push({ name: String(ge.game || ""), votes: ge.votes || 0 });
+              });
+              cats[idx] = { total: entry.total || 0, games: games };
+            });
+            statsCats = cats;
+            statsState = "ok";
+            renderResults();
+          })
+          .catch(function () {
+            /* Tải lại sau khi vote mà lỗi: giữ nguyên số thật đang hiện.
+               Tải lần đầu mà lỗi: hiện ghi chú và giữ "—". */
+            if (isRefresh && statsState === "ok") return;
+            statsState = "error";
+            renderResults();
+          });
       }
 
       /* ===== Chọn game (chỉ qua vòng xoay) ===== */
@@ -2135,19 +2203,17 @@
         box.innerHTML = (kind === "sending" ? ICON_SEND : kind === "ok" ? ICONS.check : ICON_WARN) + "<span>" + html + "</span>";
       }
       function onSendSuccess(code, fullCode, timeStr) {
-        /* Chỉ khi fetch tới Apps Script RESOLVE mới cộng +1 vào bảng kết
-           quả và hiện màn hình “Đã tham gia thành công!”. Fetch dùng
-           mode "no-cors" nên response là opaque (status 0, ok false) —
-           resolve vẫn có nghĩa là lệnh ghi ĐÃ được gửi đi, chỉ không đọc
-           được trả lời của server để xác nhận đã ghi; vì vậy chữ hiển thị
-           là “Đã gửi lệnh ghi”, không phải “Đã ghi vào Sheet”.
+        /* Chỉ khi fetch tới Apps Script RESOLVE mới hiện màn hình “Đã tham
+           gia thành công!” và tải lại thống kê thật để phiếu vừa gửi hiện
+           vào bảng kết quả. Fetch dùng mode "no-cors" nên response là
+           opaque (status 0, ok false) — resolve vẫn có nghĩa là lệnh ghi
+           ĐÃ được gửi đi, chỉ không đọc được trả lời của server để xác
+           nhận đã ghi; vì vậy chữ hiển thị là “Đã gửi lệnh ghi”, không
+           phải “Đã ghi vào Sheet”.
            Không đánh dấu / không chặn mã đã dùng: gửi lại cùng mã vẫn ghi
            tiếp để đổi vote. Màn hình xác nhận KHÔNG hiện mã đầy đủ — chỉ
            hiện username kèm mã đã che (voterDisplay) + kết quả vote. */
         var picks = lastAttempt ? lastAttempt.picks.slice() : [];
-        for (var gi2 = 0; gi2 < VOTE_COUNT; gi2++) {
-          liveVotes[gi2][picks[gi2]] = (liveVotes[gi2][picks[gi2]] || 0) + 1;
-        }
         recordedVotes.push({ code: fullCode, normCode: code, picks: picks, time: timeStr });
         /* Lưu 1 mục vào "Lịch sử vote của bạn" (localStorage, trình duyệt
            này): giờ vote + mã ĐÃ CHE (6 ký tự đầu + **** + -username) +
@@ -2161,7 +2227,9 @@
           })
         });
         renderHistory();
-        renderResults();
+        /* Tải lại thống kê thật một lần để phiếu vừa gửi hiện vào bảng
+           kết quả (lỗi tải ở bước này không ảnh hưởng phiếu đã gửi) */
+        loadStats(true);
         setSendStatus("ok", "<b>Phiếu của bạn đã được ghi nhận!</b>");
         /* Hiển thị công khai: "ncnz (K7M***) đã Vote" — username + 3 ký tự đầu của mã, không hiện mã đầy đủ */
         $("c-code").textContent = voterDisplay(fullCode);
@@ -2438,7 +2506,9 @@
         refreshCodeUI();
       })();
       renderStrip();
-      renderResults();
+      /* Bảng kết quả: hiện "—" trong lúc tải, rồi điền thống kê THẬT từ
+         Sheet qua Apps Script (?action=stats) */
+      loadStats();
       /* Mở lại trang: nếu trình duyệt này đã có lịch sử vote lưu sẵn thì
          hiện sẵn danh sách "Lịch sử vote của bạn" ngay dưới khu vực xác nhận */
       renderHistory();
