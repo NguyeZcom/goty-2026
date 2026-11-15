@@ -526,6 +526,24 @@
       .rb-bar { height: 8px; background: rgba(139, 108, 255, 0.15); border-radius: 999px; margin-top: 7px; overflow: hidden; }
       .rb-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), #b79aff); }
       .rb-row.top .rb-fill { background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--gold-2)); }
+      /* Thẻ "Bình chọn của bạn" — thẻ đầu tiên trong lưới kết quả mục 4:
+         cùng bố cục / kích thước với 5 thẻ hạng mục, chỉ khác tông màu
+         (xanh lá của phiếu đã chọn #6fd348) để phân biệt */
+      .result-board.my-board { border: 1.5px solid rgba(111, 211, 72, 0.55); background: linear-gradient(180deg, rgba(111, 211, 72, 0.08), var(--panel) 58%); box-shadow: 0 0 26px rgba(111, 211, 72, 0.1); }
+      .my-board .cat-ico { background: rgba(111, 211, 72, 0.13); border-color: rgba(111, 211, 72, 0.5); }
+      .my-board .cat-ico svg { color: #8fe06a; }
+      .my-board .rb-head h3 { color: #a5e889; }
+      .my-meta { color: var(--muted); font-size: 0.83rem; text-align: center; line-height: 1.5; }
+      .my-meta .my-code { color: #8fe06a; font-weight: 800; letter-spacing: 0.03em; word-break: break-all; }
+      .my-list { list-style: none; margin: 0; padding: 0; }
+      #result-boards .my-list { flex: 1 1 auto; display: flex; flex-direction: column; }
+      #result-boards .my-row { flex: 1 1 0; }
+      .my-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 2px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
+      .my-row .my-cat { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
+      .my-row .my-game { font-weight: 800; font-size: 0.95rem; text-align: right; }
+      .my-empty { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 6px; padding: 18px 6px 22px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
+      .my-empty .my-empty-t { font-weight: 800; font-size: 1rem; color: #a5e889; }
+      .my-empty .my-empty-s { color: var(--muted); font-size: 0.87rem; line-height: 1.55; margin: 0; max-width: 300px; }
       @media (max-width: 560px) {
         .result-board { padding: 16px 14px 8px; }
         .rb-votes { white-space: normal; text-align: right; }
@@ -1110,7 +1128,7 @@
         <div class="history-panel" id="history-panel">
           <div class="hp-head">
             <h3>Lịch sử vote của bạn</h3>
-            <button class="history-eye" id="history-eye" type="button" aria-label="Thu gọn lịch sử vote" title="Thu gọn / mở rộng lịch sử"></button>
+            <button class="history-eye" id="history-eye" type="button" aria-label="Mở rộng lịch sử vote" title="Thu gọn / mở rộng lịch sử"></button>
           </div>
           <p class="h-sub">Các phiếu bạn đã gửi từ trình duyệt này. Phiếu mới nhất của bạn là phiếu đang được tính — gửi lại để đổi vote thì phiếu mới nhất sẽ thay phiếu cũ.</p>
           <div id="history-list"></div>
@@ -1475,6 +1493,48 @@
         body.innerHTML = html;
       }
 
+      /* ===== Thẻ "Bình chọn của bạn" — thẻ ĐẦU TIÊN của lưới kết quả =====
+         Đọc THẲNG từ lịch sử vote trong localStorage của trình duyệt này
+         (không phụ thuộc lần tải thống kê từ server — server lỗi thẻ vẫn
+         hiện đúng): lấy mục MỚI NHẤT của mã người dùng đang dùng (đúng
+         mục được đánh dấu "Phiếu đang tính" trong panel lịch sử); chưa
+         có mục nào của mã đang dùng thì lấy mục mới nhất còn lại; chưa
+         vote lần nào thì hiện trạng thái trống. Mã hiện trên thẻ là mã
+         ĐÃ CHE của lịch sử (6 ký tự đầu + **** + -username), kèm giờ
+         vote — không bao giờ hiện mã đầy đủ. */
+      function myVoteCardHTML() {
+        var arr = loadHistory();
+        var entry = null;
+        if (arr.length) {
+          var curKey = generatedCode ? historyKeyOf(generatedCode) : "";
+          if (curKey) {
+            for (var i = arr.length - 1; i >= 0; i--) {
+              if ((arr[i].key || "") === curKey) { entry = arr[i]; break; }
+            }
+          }
+          if (!entry) entry = arr[arr.length - 1];
+        }
+        var html = '<div class="result-board my-board">';
+        html += '<div class="rb-head"><div class="cat-ico">' + ICONS.check + "</div>";
+        html += "<div><h3>Bình chọn của bạn</h3></div>";
+        if (entry) {
+          html += '<div class="my-meta"><span class="my-code">' + esc(entry.masked || "") + "</span> · " + esc(entry.time || "") + "</div>";
+        }
+        html += "</div>";
+        if (entry) {
+          html += '<ol class="my-list">';
+          (entry.choices || []).forEach(function (ch) {
+            html += '<li class="my-row"><span class="my-cat">' + esc(ch.cat || "") + '</span><span class="my-game">' + esc(ch.game || "") + "</span></li>";
+          });
+          html += "</ol>";
+        } else {
+          html += '<div class="my-empty"><div class="my-empty-t">Bạn chưa bình chọn</div>';
+          html += '<p class="my-empty-s">Chọn game ở phần bình chọn phía trên rồi bấm “Bình chọn xong” — phiếu của bạn sẽ hiện ở đây.</p></div>';
+        }
+        html += "</div>";
+        return html;
+      }
+
       /* ===== Bảng kết quả (chỉ xem) — số liệu THẬT từ Sheet =====
          Ba trạng thái:
          - "ok": hiện TẤT CẢ game của hạng mục (đã gộp ở loadStats), kể
@@ -1486,7 +1546,9 @@
       function renderResults() {
         var note = $("stats-note");
         if (note) note.hidden = statsState !== "error";
-        var html = "";
+        /* Thẻ đầu tiên của lưới luôn là phiếu của chính người dùng
+           (đọc từ localStorage) — lưới thành 6 thẻ đều nhau 3+3 */
+        var html = myVoteCardHTML();
         CATEGORIES.forEach(function (cat, c) {
           var entry = statsState === "ok" && statsCats ? statsCats[c] : null;
           html += '<div class="result-board">';
@@ -2147,9 +2209,13 @@
         lsSet(LS_HISTORY_KEY, JSON.stringify(arr));
       }
       /* Trạng thái thu gọn của panel lịch sử: nhớ trên trình duyệt này
-         (goty2026_history_collapsed = "1" là đang thu gọn) */
+         (goty2026_history_collapsed). MẶC ĐỊNH LÀ THU GỌN — thông tin
+         trong panel trùng với thẻ "Bình chọn của bạn" ở mục 4 nên ẩn
+         sẵn, bấm icon mắt mới hiện. Chỉ khi người dùng đã bấm mở (giá
+         trị đã lưu là "0") panel mới hiện mở; "1" hoặc chưa từng bấm
+         (chưa có giá trị) đều là thu gọn. */
       var LS_HISTORY_COLLAPSED_KEY = "goty2026_history_collapsed";
-      function historyCollapsed() { return lsGet(LS_HISTORY_COLLAPSED_KEY) === "1"; }
+      function historyCollapsed() { return lsGet(LS_HISTORY_COLLAPSED_KEY) !== "0"; }
       /* Xoá 1 mục PHIẾU CŨ khỏi lịch sử trên trình duyệt này (chỉ xoá bản
          ghi localStorage — phiếu trong Sheet vẫn được tính như cũ, không
          thu hồi). Phiếu đang tính không có nút xoá nên không xoá được. */
@@ -2377,6 +2443,9 @@
           })
         });
         renderHistory();
+        /* Vẽ lại lưới kết quả ngay để thẻ "Bình chọn của bạn" hiện phiếu
+           vừa gửi (thẻ đọc từ localStorage, không chờ thống kê server) */
+        renderResults();
         /* Tải lại thống kê thật một lần để phiếu vừa gửi hiện vào bảng
            kết quả (lỗi tải ở bước này không ảnh hưởng phiếu đã gửi) */
         loadStats(true);
@@ -2664,7 +2733,7 @@
          lịch sử (chỉ trên trình duyệt này) */
       var eyeBtnInit = $("history-eye");
       if (eyeBtnInit) eyeBtnInit.addEventListener("click", function () {
-        lsSet(LS_HISTORY_COLLAPSED_KEY, historyCollapsed() ? "" : "1");
+        lsSet(LS_HISTORY_COLLAPSED_KEY, historyCollapsed() ? "0" : "1");
         renderHistory();
       });
       var historyListEl = $("history-list");
