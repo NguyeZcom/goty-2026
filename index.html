@@ -499,31 +499,32 @@
       .once-note { margin-top: 5px; color: var(--muted); font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 7px; }
       .once-note svg { width: 15px; height: 15px; color: var(--muted-2); flex: none; }
 
-      /* ---------- Bảng kết quả (chỉ xem) ---------- */
-      .result-board { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 16px 8px; margin-top: 0; }
-      .rb-head { display: flex; align-items: center; gap: 13px; flex-wrap: wrap; margin-bottom: 8px; }
-      .rb-head h3 { margin: 0; font-size: 1.13rem; font-weight: 800; }
-      .rb-head .cat-desc { color: var(--muted); font-size: 0.85rem; margin-top: 2px; }
-      .rb-tag { margin-left: auto; font-size: 0.74rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-2); background: rgba(242, 182, 60, 0.12); border: 1px solid var(--line-gold); padding: 5px 11px; border-radius: 999px; }
+      /* ---------- Bảng kết quả (chỉ xem) — mục 4, đã chuẩn hoá gọn:
+         cỡ chữ nhỏ hơn, khoảng cách hẹp hơn, tên game để trọng lượng thường ---------- */
+      .result-board { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 11px 12px 5px; margin-top: 0; }
+      .rb-head { display: flex; align-items: center; gap: 9px; flex-wrap: wrap; margin-bottom: 5px; }
+      .rb-head h3 { margin: 0; font-size: 0.98rem; font-weight: 700; }
+      .rb-head .cat-desc { color: var(--muted); font-size: 0.78rem; margin-top: 1px; }
+      .rb-tag { margin-left: auto; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--gold-2); background: rgba(242, 182, 60, 0.12); border: 1px solid var(--line-gold); padding: 3px 9px; border-radius: 999px; }
       .rb-list { list-style: none; margin: 0; padding: 0; }
-      .rb-empty { padding: 14px 2px 18px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid rgba(148, 128, 255, 0.12); }
-      .stats-note { margin: 16px 0 0; text-align: center; color: var(--gold-2); font-size: 0.93rem; font-weight: 700; }
-      .voters-block { margin-top: 22px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px 20px; }
-      .voters-block h3 { margin: 0 0 12px; font-size: 1.05rem; font-weight: 800; }
+      .rb-empty { padding: 9px 2px 12px; color: var(--muted); font-size: 0.84rem; border-top: 1px solid rgba(148, 128, 255, 0.12); }
+      .stats-note { margin: 10px 0 0; text-align: center; color: var(--gold-2); font-size: 0.85rem; font-weight: 600; }
+      .voters-block { margin-top: 14px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px 13px; }
+      .voters-block h3 { margin: 0 0 8px; font-size: 0.94rem; font-weight: 700; }
       .voters-block h3 b { color: var(--gold-2); }
-      .voters-list { display: flex; flex-wrap: wrap; gap: 8px; }
-      .voter-chip { font-weight: 700; font-size: 0.88rem; letter-spacing: 0.02em; color: var(--text); background: rgba(139, 108, 255, 0.1); border: 1px solid var(--line); border-radius: 999px; padding: 6px 13px; word-break: break-all; }
-      .voters-empty, .voters-loading { color: var(--muted); font-size: 0.92rem; }
-      .rb-row { display: flex; align-items: center; gap: 12px; padding: 8px 2px; border-top: 1px solid rgba(148, 128, 255, 0.12); }
-      .rb-rank { flex: none; width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 0.95rem; background: rgba(139, 108, 255, 0.13); color: var(--muted); border: 1px solid var(--line); }
-      .rb-row.top .rb-rank { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: #241300; border-color: var(--gold); box-shadow: 0 0 16px rgba(242, 182, 60, 0.4); }
+      .voters-list { display: flex; flex-wrap: wrap; gap: 6px; }
+      .voter-chip { font-weight: 600; font-size: 0.8rem; letter-spacing: 0.02em; color: var(--text); background: rgba(139, 108, 255, 0.1); border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; word-break: break-all; }
+      .voters-empty, .voters-loading { color: var(--muted); font-size: 0.85rem; }
+      .rb-row { display: flex; align-items: center; gap: 9px; padding: 5px 2px; border-top: 1px solid rgba(148, 128, 255, 0.12); }
+      .rb-rank { flex: none; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; background: rgba(139, 108, 255, 0.13); color: var(--muted); border: 1px solid var(--line); }
+      .rb-row.top .rb-rank { background: linear-gradient(180deg, var(--gold-2), var(--gold)); color: #241300; border-color: var(--gold); box-shadow: 0 0 12px rgba(242, 182, 60, 0.4); }
       .rb-main { flex: 1 1 auto; min-width: 0; }
-      .rb-top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-      .rb-name { font-weight: 800; font-size: 0.95rem; }
+      .rb-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+      .rb-name { font-weight: 400; font-size: 0.87rem; line-height: 1.35; }
       .rb-row.top .rb-name { color: var(--gold-2); }
-      .rb-votes { color: var(--muted); font-size: 0.82rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
-      .rb-votes b { color: var(--text); }
-      .rb-bar { height: 8px; background: rgba(139, 108, 255, 0.15); border-radius: 999px; margin-top: 7px; overflow: hidden; }
+      .rb-votes { color: var(--muted); font-size: 0.76rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .rb-votes b { color: var(--text); font-weight: 600; }
+      .rb-bar { height: 5px; background: rgba(139, 108, 255, 0.15); border-radius: 999px; margin-top: 4px; overflow: hidden; }
       .rb-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--violet), #b79aff); }
       .rb-row.top .rb-fill { background: linear-gradient(90deg, var(--gold-deep), var(--gold), var(--gold-2)); }
       /* Thẻ "Bình chọn của bạn" — thẻ đầu tiên trong lưới kết quả mục 4:
@@ -533,19 +534,19 @@
       .my-board .cat-ico { background: rgba(111, 211, 72, 0.13); border-color: rgba(111, 211, 72, 0.5); }
       .my-board .cat-ico svg { color: #8fe06a; }
       .my-board .rb-head h3 { color: #a5e889; }
-      .my-meta { color: var(--muted); font-size: 0.83rem; text-align: center; line-height: 1.5; }
-      .my-meta .my-code { color: #8fe06a; font-weight: 800; letter-spacing: 0.03em; word-break: break-all; }
+      .my-meta { color: var(--muted); font-size: 0.78rem; text-align: center; line-height: 1.45; }
+      .my-meta .my-code { color: #8fe06a; font-weight: 700; letter-spacing: 0.03em; word-break: break-all; }
       .my-list { list-style: none; margin: 0; padding: 0; }
       #result-boards .my-list { flex: 1 1 auto; display: flex; flex-direction: column; }
       #result-boards .my-row { flex: 1 1 0; }
-      .my-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 2px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
-      .my-row .my-cat { color: var(--muted); font-size: 0.85rem; font-weight: 600; }
-      .my-row .my-game { font-weight: 800; font-size: 0.95rem; text-align: right; }
-      .my-empty { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 6px; padding: 18px 6px 22px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
-      .my-empty .my-empty-t { font-weight: 800; font-size: 1rem; color: #a5e889; }
-      .my-empty .my-empty-s { color: var(--muted); font-size: 0.87rem; line-height: 1.55; margin: 0; max-width: 300px; }
+      .my-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 5px 2px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
+      .my-row .my-cat { color: var(--muted); font-size: 0.79rem; font-weight: 500; }
+      .my-row .my-game { font-weight: 400; font-size: 0.87rem; line-height: 1.35; text-align: right; }
+      .my-empty { flex: 1 1 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; padding: 12px 6px 15px; border-top: 1px solid rgba(111, 211, 72, 0.16); }
+      .my-empty .my-empty-t { font-weight: 700; font-size: 0.92rem; color: #a5e889; }
+      .my-empty .my-empty-s { color: var(--muted); font-size: 0.81rem; line-height: 1.5; margin: 0; max-width: 300px; }
       @media (max-width: 560px) {
-        .result-board { padding: 16px 14px 8px; }
+        .result-board { padding: 11px 11px 5px; }
         .rb-votes { white-space: normal; text-align: right; }
       }
 
@@ -590,13 +591,13 @@
       /* ---------- Sections ---------- */
       .section { padding: 56px 0 8px; scroll-margin-top: 76px; }
       .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
-      .sec-head h2 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 1.85rem); font-weight: 900; }
+      .sec-head h2 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 1.85rem); font-weight: 900; line-height: 1.25; }
       .sec-head .sub { color: var(--muted); margin-top: 6px; font-size: 0.94rem; max-width: 640px; }
       .draft-chip { display: inline-block; background: rgba(242, 182, 60, 0.13); border: 1px solid var(--line-gold); color: var(--gold-2); font-size: 0.74rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; letter-spacing: 0.04em; text-transform: uppercase; }
 
       /* Code card */
       .code-card { background: var(--panel); border: 1px solid var(--line-gold); border-radius: var(--radius); padding: 22px; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35); }
-      .code-card h3 { margin: 0 0 4px; font-size: 1.08rem; font-weight: 800; display: flex; align-items: center; gap: 9px; }
+      .code-card h3 { margin: 0 0 4px; font-size: clamp(1.4rem, 3.4vw, 1.85rem); font-weight: 900; line-height: 1.25; display: flex; align-items: center; gap: 12px; }
       .code-card h3 svg { width: 20px; height: 20px; color: var(--gold-2); }
       .code-card .hint { color: var(--muted); font-size: 0.88rem; margin: 0 0 14px; }
       .code-row { display: flex; gap: 10px; flex-wrap: wrap; }
@@ -808,7 +809,7 @@
       /* Cách tham gia + nút Bình chọn xong (gộp trong phần bình chọn) */
       .howto { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; margin-bottom: 16px; }
       .howto-head { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
-      .howto-head h3 { margin: 0; font-size: 1.12rem; font-weight: 800; }
+      .howto-head h3 { margin: 0; font-size: clamp(1.4rem, 3.4vw, 1.85rem); font-weight: 900; line-height: 1.25; }
       .howto-list { margin: 0; padding-left: 20px; color: var(--muted); font-size: 0.93rem; line-height: 1.7; }
       .howto-list li + li { margin-top: 6px; }
       .howto-list b { color: var(--text); }
@@ -833,15 +834,21 @@
       .sec-head.center .sub { margin-left: auto; margin-right: auto; }
       .res-head { display: inline-flex; align-items: center; gap: 12px; }
       .res-head h2 { margin: 0; }
+      /* Mục 4 gọn hơn: khoảng cách trên/dưới của mục và dưới tiêu đề hẹp lại */
+      #ket-qua { padding-top: 34px; padding-bottom: 2px; }
+      #ket-qua .sec-head { margin-bottom: 12px; }
       /* Các card kết quả luôn cao bằng nhau: mọi hàng lưới cao như card cao nhất,
          danh sách bên trong giãn đều để lấp đầy chiều cao */
-      #result-boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; align-items: stretch; grid-auto-rows: 1fr; }
+      #result-boards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 10px; align-items: stretch; grid-auto-rows: 1fr; }
       #result-boards .result-board { height: 100%; display: flex; flex-direction: column; }
       #result-boards .rb-list { flex: 1 1 auto; display: flex; flex-direction: column; }
       #result-boards .rb-row { flex: 1 1 0; }
-      .rb-head { flex-direction: column; align-items: center; text-align: center; gap: 8px; }
-      .rb-head .rb-total { color: var(--muted); font-size: 0.9rem; margin-top: 2px; text-align: center; }
-      .rb-head .rb-total b { color: var(--gold-2); }
+      /* Icon hạng mục trong thẻ kết quả nhỏ hơn icon ở các mục bình chọn */
+      #result-boards .cat-ico { width: 34px; height: 34px; border-radius: 9px; }
+      #result-boards .cat-ico svg { width: 20px; height: 20px; }
+      .rb-head { flex-direction: column; align-items: center; text-align: center; gap: 5px; }
+      .rb-head .rb-total { color: var(--muted); font-size: 0.8rem; margin-top: 1px; text-align: center; }
+      .rb-head .rb-total b { color: var(--gold-2); font-weight: 600; }
       footer .footer-flex { display: flex; align-items: center; justify-content: center; gap: 18px; flex-wrap: wrap; text-align: center; }
       footer .f-logo-bike { width: 54px; height: 54px; border-radius: 50%; object-fit: cover; display: block; border: 2px solid rgba(242, 182, 60, 0.5); }
       footer .f-logo-cat { height: 54px; width: auto; display: block; }
@@ -856,6 +863,38 @@
       .rule-card p { margin: 0; color: var(--muted); font-size: 0.87rem; line-height: 1.6; }
       .about-box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; color: var(--muted); line-height: 1.75; font-size: 0.95rem; }
       .about-box b { color: var(--text); }
+
+      /* Mục 3 — Phần thưởng và Thể lệ: 3 cột đều nhau — Thể lệ | NguyeZ Gaming | Chin Chơi Game + lvcd95.
+         Lưới 2 hàng: cột 1 (Thể lệ) kéo dài qua cả 2 hàng; dòng Lưu ý nằm BÊN TRONG hàng 2 của cột 2–3,
+         sát lề dưới của 2 cột nhà tài trợ, thẳng hàng với đáy nội dung cột 1 — 3 cột kết thúc cùng một đường đáy. */
+      .rewards-box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+      .rewards-cols { display: grid; grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr auto; gap: 0; align-items: stretch; }
+      .rewards-col { min-width: 0; padding: 0 20px; }
+      .rewards-col:first-child { grid-row: 1 / -1; padding-left: 0; }
+      .rewards-col:nth-child(2), .rewards-col:nth-child(3) { grid-row: 1; }
+      .rewards-col:last-child { padding-right: 0; }
+      .rewards-col + .rewards-col { border-left: 1px solid var(--line); }
+      .rewards-col-title { margin: 0 0 14px; font-size: 1.13rem; font-weight: 800; color: var(--text); line-height: 1.3; }
+      .rewards-rules { margin: 0; padding-left: 20px; color: var(--muted); font-size: 0.95rem; line-height: 1.75; text-align: justify; }
+      .rewards-rules li + li { margin-top: 10px; }
+      .rewards-rules b { color: var(--text); }
+      .sponsor-name { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1.13rem; color: var(--text); margin: 0 0 12px; line-height: 1.3; flex-wrap: wrap; }
+      .sponsor-name a { color: var(--gold-2); text-decoration: none; display: inline-flex; align-items: center; gap: 7px; }
+      .sponsor-name a:hover { text-decoration: underline; text-underline-offset: 3px; }
+      .sponsor-name .yt-ico { width: 22px; height: 22px; flex: none; color: #ff0033; }
+      .sponsor-name .sponsor-note { color: var(--muted); font-weight: 600; font-size: 0.86rem; }
+      .sponsor-name--sub { margin-top: 18px; padding-top: 14px; border-top: 1px dashed rgba(148, 128, 255, 0.22); font-size: 0.98rem; }
+      .prize-list { margin: 0; padding-left: 18px; color: var(--muted); font-size: 0.92rem; line-height: 1.65; }
+      .prize-list li + li { margin-top: 2px; }
+      .rewards-note { grid-column: 2 / -1; grid-row: 2; align-self: end; margin: 18px 0 0; padding: 14px 0 0 20px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); color: var(--gold-2); font-size: 0.9rem; font-weight: 700; line-height: 1.6; }
+      @media (max-width: 900px) {
+        .rewards-cols { grid-template-columns: 1fr; grid-template-rows: none; gap: 22px; }
+        .rewards-col { padding: 0; }
+        .rewards-col:first-child, .rewards-col:nth-child(2), .rewards-col:nth-child(3) { grid-row: auto; }
+        .rewards-col + .rewards-col { border-left: none; border-top: 1px solid var(--line); padding-top: 20px; }
+        .rewards-note { grid-column: auto; grid-row: auto; align-self: auto; padding-left: 0; border-left: none; }
+        .rewards-box { padding: 18px; }
+      }
 
       footer { margin-top: 64px; border-top: 1px solid var(--line); padding: 26px 0 40px; color: var(--muted-2); font-size: 0.84rem; line-height: 1.7; }
       footer .f-brand { color: var(--muted); font-weight: 800; letter-spacing: 0.05em; margin-bottom: 6px; }
@@ -1135,14 +1174,54 @@
         </div>
       </section>
 
-      <!-- ===== Phần thưởng (nội dung sẽ soạn sau) ===== -->
+      <!-- ===== Phần thưởng và Thể lệ ===== -->
       <section class="section" id="phan-thuong">
         <div class="sec-head">
           <div>
-            <div class="res-head"><span class="rule-num">3</span><h2>Phần thưởng</h2></div>
+            <div class="res-head"><span class="rule-num">3</span><h2>Phần thưởng và Thể lệ</h2></div>
           </div>
         </div>
-        <div class="about-box">Đang cập nhật</div>
+        <div class="rewards-box">
+          <div class="rewards-cols">
+            <div class="rewards-col">
+              <h3 class="rewards-col-title">Thể lệ</h3>
+              <ul class="rewards-rules">
+                <li>Bình chọn được tính điểm, đủ điểm sẽ vào Vòng Quay May Mắn với <b>hơn 10 phần quà</b> là mã game Steam.</li>
+                <li>Bình chọn chính xác GOTY sẽ được 6 điểm, các hạng mục còn lại sẽ 3 điểm mỗi mục. Trên 5 điểm sẽ vào danh sách Vòng Quay May Mắn, đơn giản là <b>Đoán trúng GOTY hoặc trúng ít nhất 2 hạng mục phụ</b> là có vé vào Vòng Quay May Mắn.</li>
+                <li><b>Vòng Quay May Mắn</b> là gì? Như các Video Give Away trước giờ trên kênh thôi, có gì vui vui thì xài cái đó, chưa biết được.</li>
+              </ul>
+            </div>
+            <div class="rewards-col">
+              <p class="sponsor-name"><a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2zM9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>NguyeZ Gaming</a></p>
+              <ul class="prize-list">
+                <li>Gatekeeper</li>
+                <li>Pile Up!</li>
+                <li>Affogato</li>
+                <li>Cataclismo</li>
+                <li>Asgard's Fall</li>
+                <li>Dungeons &amp; Degenerate Gamblers</li>
+                <li>Asgard's Fall — Viking Survivors</li>
+                <li>Toy Shire</li>
+                <li>Paleo Pines</li>
+                <li>Smalland: Survive the Wild</li>
+              </ul>
+            </div>
+            <div class="rewards-col">
+              <p class="sponsor-name"><a href="https://www.youtube.com/@chinchoigame" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1-2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2zM9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>Chin Chơi Game</a></p>
+              <ul class="prize-list">
+                <li>WinMon (3 keys)</li>
+                <li>Blacksmith Master</li>
+                <li>9 Kings</li>
+                <li>Hull Rupture</li>
+              </ul>
+              <p class="sponsor-name sponsor-name--sub">lvcd95 <span class="sponsor-note">(Đại gia Voz)</span></p>
+              <ul class="prize-list">
+                <li>Immortal Life</li>
+              </ul>
+            </div>
+            <p class="rewards-note">* Lưu ý: Key chỉ Active được ở Steam khu vực Việt Nam</p>
+          </div>
+        </div>
       </section>
 
       <!-- ===== Bình chọn của mọi người (chỉ xem, không chọn game ở đây) ===== -->
