@@ -626,15 +626,20 @@
          (username) | Mã tham gia (sao chép / tải về) | Bình chọn xong.
          Mọi trường hiện ngay từ đầu; KHÔNG đánh số bên trong (đã nằm trong
          mục 2). Mỗi cột: nhãn ở trên, ô nhập/nút căn đáy thẳng hàng nhau.
-         Cột 1 cố định 14rem (224px): đã ĐO theo font Be Vietnam Pro 800 ở
-         1.05rem + letter-spacing .06em — mã 10 ký tự xấu nhất (toàn ký tự
-         rộng nhất) cần ≈219,5px gồm padding/border, nút "Tạo Mã Tham Gia"
-         cần ≈205px, nên 224px vừa đủ hiện full mã, không thừa không cắt.
-         Phần rộng tiết kiệm được dồn cho cột 3 (2.4fr) để ô mã đầy đủ
-         "MÃ-username" hiện được nhiều nhất. */
-      .code-row { display: grid; grid-template-columns: 14rem 1fr 2.4fr auto; gap: 10px; align-items: stretch; }
+         Mọi nhãn cột ép MỘT dòng (nowrap) — kể cả nhãn dài "Username
+         (Discord/Voz/GVN...)"; vì vậy bề rộng được cân lại: cột 1 và cột 3
+         thu hẹp, phần dôi dồn cho cột 2.
+         Cột 1 cố định 13.25rem (212px): mã hệ thống là mã CỐ ĐỊNH đúng 10
+         ký tự nên không cần rộng như trước; ô hiện mã trong cột này được
+         siết riêng (font 1rem, letter-spacing .02em, padding ngang 10px —
+         xem .sys-slot .gen-input) nên mã xấu nhất vẫn hiện đủ 10 ký tự,
+         nút "Tạo Mã Tham Gia" vẫn vừa. Cột 2 có sàn 15.5rem (248px) —
+         vừa đúng bề rộng nhãn username ở .9rem/800 — và nhận 1fr; cột 3
+         giảm còn 1.5fr (ô "MÃ-username" vốn tự cắt phía trái theo thiết
+         kế nên hẹp đi không mất thông tin, username ở cuối vẫn hiện). */
+      .code-row { display: grid; grid-template-columns: 13.25rem minmax(15.5rem, 1fr) 1.5fr auto; gap: 10px; align-items: stretch; }
       .code-col { display: flex; flex-direction: column; min-width: 0; }
-      .code-col > label { display: block; font-weight: 800; font-size: .9rem; margin: 0 0 8px; }
+      .code-col > label { display: block; font-weight: 800; font-size: .9rem; margin: 0 0 8px; white-space: nowrap; }
       .code-col .col-body { margin-top: auto; display: flex; flex-direction: column; gap: 8px; }
       .btn-gen { background: linear-gradient(180deg, var(--gold-2), var(--gold) 55%, #d99a22); border: none; color: #241300; font-weight: 900; font-size: .98rem; border-radius: 10px; padding: 10px 18px; min-height: 3rem; width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 9px; box-shadow: 0 10px 28px rgba(242,182,60,.28); white-space: nowrap; }
       .btn-gen svg { width: 19px; height: 19px; flex: none; }
@@ -646,6 +651,9 @@
          thì ô hiện mã thay cho nút, không còn tầng thứ hai nào. */
       .sys-slot { height: 3rem; }
       .sys-slot .btn-gen, .sys-slot .gen-input { height: 100%; min-height: 0; }
+      /* Ô hiện mã hệ thống siết riêng để cột 1 thu hẹp còn 13.25rem mà mã
+         10 ký tự (kể cả toàn ký tự rộng nhất) vẫn hiện đủ, không bị cắt */
+      .sys-slot .gen-input { font-size: 1rem; letter-spacing: .02em; padding-left: 10px; padding-right: 10px; }
       .btn-gen[hidden] { display: none !important; }
       .gen-input { width: 100%; background: #0a0618; border: 1.5px solid var(--line); border-radius: 10px; color: var(--gold-2); font-size: 1.05rem; font-weight: 800; letter-spacing: .06em; padding: 10px 13px; outline: none; min-height: 3rem; }
       .gen-input[hidden] { display: none !important; }
@@ -673,7 +681,14 @@
       .btn-download:disabled:hover { background: transparent; }
       .copy-status { position: absolute; top: calc(100% + 3px); left: 0; margin: 0; font-size: .84rem; color: var(--ok); font-weight: 700; white-space: nowrap; pointer-events: none; }
       .code-row .btn-submit-inline { min-height: 3rem; width: 100%; }
-      @media (max-width: 760px) { .code-row { grid-template-columns: 1fr 1fr; } .copy-status { position: static; white-space: normal; } }
+      /* Xuống 2 cột sớm hơn (1020px thay vì 760px): dưới bề rộng này hàng
+         4 cột không còn đủ chỗ cho nhãn username một dòng + ô mã tham gia
+         dùng được, nên xếp 2+2 thay vì bóp méo cả hàng */
+      @media (max-width: 1020px) { .code-row { grid-template-columns: 1fr 1fr; } }
+      @media (max-width: 760px) { .copy-status { position: static; white-space: normal; } }
+      /* Màn hình nhỏ (bố cục đã xếp chồng): nhãn được phép xuống dòng như
+         cũ để không tràn ngang — ép một dòng chỉ áp cho hàng ngang */
+      @media (max-width: 640px) { .code-col > label { white-space: normal; } }
       @media (max-width: 480px) { .code-row { grid-template-columns: 1fr; } }
 
       /* Sticky progress */
@@ -1104,9 +1119,9 @@
               </div>
             </div>
             <div class="code-col">
-              <label for="username-input">Tên của bạn (username)</label>
+              <label for="username-input">Username (Discord/Voz/GVN...)</label>
               <div class="col-body">
-                <input class="gen-input username-input" id="username-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="20" placeholder="Ví dụ: NguyeZ2026" aria-label="Tên của bạn (username)" />
+                <input class="gen-input username-input" id="username-input" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="20" placeholder="Ví dụ: NguyeZ2026" aria-label="Username (Discord/Voz/GVN...)" />
               </div>
             </div>
             <div class="code-col code-col-full">
@@ -1192,7 +1207,7 @@
               </ul>
             </div>
             <div class="rewards-col">
-              <p class="sponsor-name"><a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2zM9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>NguyeZ Gaming</a></p>
+              <p class="sponsor-name"><a href="https://youtube.com/ncn1992vn" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2z"/><path fill="#fff" d="M9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>NguyeZ Gaming</a></p>
               <ul class="prize-list">
                 <li>Gatekeeper</li>
                 <li>Pile Up!</li>
@@ -1207,7 +1222,7 @@
               </ul>
             </div>
             <div class="rewards-col">
-              <p class="sponsor-name"><a href="https://www.youtube.com/@chinchoigame" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1-2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2zM9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>Chin Chơi Game</a></p>
+              <p class="sponsor-name"><a href="https://www.youtube.com/@chinchoigame" target="_blank" rel="noopener"><svg class="yt-ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31.3 31.3 0 0 0 .5 12 31.3 31.3 0 0 0 1 16.8a3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1A31.3 31.3 0 0 0 23.5 12 31.3 31.3 0 0 0 23 7.2z"/><path fill="#fff" d="M9.8 15.6V8.4l6 3.6-6 3.6z"/></svg>Chin Chơi Game</a></p>
               <ul class="prize-list">
                 <li>WinMon (3 keys)</li>
                 <li>Blacksmith Master</li>
@@ -2202,6 +2217,69 @@
       var LS_USER_KEY = "goty2026_username";
       function lsGet(key) { try { return localStorage.getItem(key) || ""; } catch (e) { return ""; } }
       function lsSet(key, val) { try { localStorage.setItem(key, val); } catch (e) { /* trình duyệt chặn lưu thì vẫn dùng mã trong phiên này */ } }
+      /* ===== Chống spam vote liên tiếp (chỉ ở trình duyệt này) =====
+         Cho phép tối đa 3 lần bình chọn THÀNH CÔNG liên tiếp; lần tiếp
+         theo chỉ được gửi khi đã đủ 5 phút kể từ lần thứ 3. Hết 5 phút
+         thì bộ đếm tự reset, lại được 3 lần liên tiếp. Trạng thái lưu ở
+         khóa RIÊNG goty2026_vote_guard — không dùng chung khóa lịch sử
+         vote (lịch sử có nút xoá, xoá lịch sử không xoá được bộ đếm này).
+         Lần bấm bị chặn / sai mã / thiếu hạng mục KHÔNG được đếm. */
+      var LS_GUARD_KEY = "goty2026_vote_guard";
+      var GUARD_MAX = 3;
+      var GUARD_WAIT_MS = 5 * 60 * 1000;
+      function loadVoteGuard() {
+        try {
+          var g = JSON.parse(lsGet(LS_GUARD_KEY) || "null");
+          if (g && typeof g.count === "number" && typeof g.thirdAt === "number") return g;
+        } catch (e) { /* dữ liệu hỏng thì đếm lại từ đầu */ }
+        return { count: 0, thirdAt: 0 };
+      }
+      function saveVoteGuard(g) { lsSet(LS_GUARD_KEY, JSON.stringify(g)); }
+      /* Số ms còn phải chờ trước lần vote tiếp theo; 0 = được vote ngay.
+         Đã hết hạn chờ thì reset bộ đếm về 0 luôn. */
+      function voteGuardWaitMs() {
+        var g = loadVoteGuard();
+        if (g.count >= GUARD_MAX) {
+          var wait = g.thirdAt + GUARD_WAIT_MS - Date.now();
+          if (wait > 0) return wait;
+          saveVoteGuard({ count: 0, thirdAt: 0 });
+        }
+        return 0;
+      }
+      /* Gọi SAU mỗi lần gửi phiếu thành công: tăng bộ đếm; đạt lần thứ 3
+         thì ghi lại thời điểm để tính 5 phút chờ cho lần thứ 4. */
+      function recordVoteGuard() {
+        var g = loadVoteGuard();
+        if (g.count >= GUARD_MAX && Date.now() - g.thirdAt >= GUARD_WAIT_MS) g = { count: 0, thirdAt: 0 };
+        g.count += 1;
+        if (g.count >= GUARD_MAX) g.thirdAt = Date.now();
+        saveVoteGuard(g);
+      }
+      function fmtWait(ms) {
+        var s = Math.ceil(ms / 1000);
+        var m = Math.floor(s / 60);
+        var r = s % 60;
+        return m + ":" + (r < 10 ? "0" : "") + r;
+      }
+      var guardTimer = null;
+      function stopGuardTimer() { if (guardTimer) { clearInterval(guardTimer); guardTimer = null; } }
+      /* Hiện thông báo chặn ở đúng ô trạng thái gửi phiếu (send-status,
+         cùng vị trí/kiểu với các thông báo kết quả vote khác) kèm đồng
+         hồ đếm ngược phút:giây; hết giờ chờ thì tự báo được vote tiếp. */
+      function showVoteGuardBlock() {
+        stopGuardTimer();
+        function tick() {
+          var wait = voteGuardWaitMs();
+          if (wait <= 0) {
+            stopGuardTimer();
+            setSendStatus("ok", "Đã hết thời gian chờ — bạn có thể bình chọn tiếp.");
+            return;
+          }
+          setSendStatus("err", "Bạn đã bình chọn <b>3 lần liên tiếp</b>. Vui lòng chờ <b>" + fmtWait(wait) + "</b> rồi bình chọn tiếp.");
+        }
+        tick();
+        guardTimer = setInterval(tick, 500);
+      }
       var generatedCode = "";
       var savedCode = lsGet(LS_CODE_KEY).toUpperCase();
       if (savedCode && isValidGiveawayCode(savedCode)) generatedCode = savedCode;
@@ -2509,6 +2587,8 @@
            tiếp để đổi vote. Màn hình xác nhận KHÔNG hiện mã đầy đủ — chỉ
            hiện username kèm mã đã che (voterDisplay) + kết quả vote. */
         var picks = lastAttempt ? lastAttempt.picks.slice() : [];
+        /* Gửi thành công mới tính vào bộ đếm chống spam (3 lần liên tiếp) */
+        recordVoteGuard();
         recordedVotes.push({ code: fullCode, normCode: code, picks: picks, time: timeStr });
         /* Lưu 1 mục vào "Lịch sử vote của bạn" (localStorage, trình duyệt
            này): giờ vote + mã ĐÃ CHE (6 ký tự đầu + **** + -username) +
@@ -2549,6 +2629,7 @@
       $("btn-submit").addEventListener("click", function () {
         hideSubmitMsg();
         setSendStatus(null);
+        stopGuardTimer();
         missingCats = {};
         document.querySelectorAll(".cat-tile.missing").forEach(function (b) { b.classList.remove("missing"); });
         var code = currentCode();
@@ -2570,6 +2651,14 @@
         if (missing.length) {
           showSubmitError("Bạn còn thiếu <b>" + missing.length + " hạng mục</b> chưa chọn game. Bấm vào từng mục dưới đây để mở đúng hạng mục đó trên vòng xoay:", missing);
           selectCategory(missing[0]);
+          return;
+        }
+        /* Chống spam: mã hợp lệ + đủ 5 hạng mục rồi mới kiểm tra giới
+           hạn — đã vote thành công 3 lần liên tiếp mà chưa đủ 5 phút kể
+           từ lần thứ 3 thì CHẶN, không gửi phiếu, hiện thông báo kèm
+           thời gian chờ đếm ngược. Lần bị chặn này không được đếm. */
+        if (voteGuardWaitMs() > 0) {
+          showVoteGuardBlock();
           return;
         }
         var now = new Date();
